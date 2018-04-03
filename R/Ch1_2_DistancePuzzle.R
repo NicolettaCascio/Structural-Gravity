@@ -76,7 +76,8 @@ summary(fit2)
 data <- data %>% 
   mutate(SMCTRY = ifelse(importer == exporter, 1, 0),
          logDIST_INTRA = log(DIST)*SMCTRY) %>% 
-  mutate_each(funs(.*(1 - SMCTRY)), contains("logDIST1"), contains("logDIST2"))
+  mutate_at(vars(contains("logDIST1")), .funs = funs(.*(1 - SMCTRY))) %>%
+  mutate_at(vars(contains("logDIST2")), .funs = funs(.*(1 - SMCTRY)))
 
 xvars <- c(xvars, 'logDIST_INTRA')
 
